@@ -5,7 +5,7 @@ public class Main{
 
   static StringBuilder sb = new StringBuilder();
   static int N, M;
-  static int[] selected;
+  static int[] selected, used; // used 배열을 통해 사용된 여부 체크하면 반복문을 통해 체크할 필요가 없다.
 
   static void rec_func(int k) {
 
@@ -17,18 +17,14 @@ public class Main{
     } else {
       for(int cand = 1; cand <= N; cand++) {
         // 중복 확인
-        boolean isUsed = false;
-        for(int i = 1; i < k; i++) { // 현재 인덱스 전까지 검사
-          if(cand == selected[i]) { // 넣을 값이 이전에 나왔던 수라면
-            isUsed = true;
-          }
-        }
+        if(used[cand] == 1) continue;
 
-        if(!isUsed) { // 넣을 수 있는 수라면 넣기
-          selected[k] = cand;
-          rec_func(k+1);
-          selected[k] = 0;
-        }
+        selected[k] = cand;
+        used[cand] = 1;
+        rec_func(k+1);
+        selected[k] = 0;
+        used[cand] = 0;
+
       }
     }
     
@@ -44,6 +40,7 @@ public class Main{
     M = Integer.parseInt(st.nextToken());
 
     selected = new int[M+1];
+    used = new int[N+1];
 
     rec_func(1);
 
