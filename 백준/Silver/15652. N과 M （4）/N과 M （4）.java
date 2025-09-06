@@ -15,10 +15,10 @@ public class Main{
       }
       sb.append("\n");
     } else {
-      for(int cand = 1; cand <= N; cand++) {
-        if(selected[k-1] <= cand) selected[k] = cand;
-        else continue;
-
+      int start = selected[k-1];
+      if(start == 0) start = 1;  
+      for(int cand = start; cand <= N; cand++) {
+        selected[k] = cand;
         rec_func(k+1);
         selected[k] = 0;
         
