@@ -4,10 +4,13 @@ import java.io.*;
 public class Main{
 
   static StringBuilder sb = new StringBuilder();
-  static int N, kind;
+  static int N;
+  static int kind = 0;
   static String A;
   static int[] cnt = new int[27];
 
+  // add와 erase에서만 cnt배열의 값이 바뀐다.
+  // 그래서 함수 내에서 kind를 바로 조절
   static void add(char x) { // x라는 알파벳 추가
     cnt[x-'a']++; // x는 char니까
     if(cnt[x-'a'] == 1) kind++; // 종류 추가( 1보다 큰 경우는 같은 종류니까 고려x)
@@ -28,16 +31,9 @@ public class Main{
       add(A.charAt(R));
 
       // 불가능하면, 가능할 때까지 `L을 이동`
-      while(true) {
-        kind = 0;
-        for(int i = 0; i < 26; i++) {
-          if(cnt[i] != 0) kind++; // 0이 아니면 나왔던거니까 kind를 ++
-        }
-        if(kind <= N) { // kind가 N보다 작으면 구간 길이를 세봐야 하니까 break;
-          break;
-        }
+      while(kind > N) {
         //아니면 L을 당겨와야 하니까 
-        erase(A.charAt(L));
+        erase(A.charAt(L)); // erase 내에서 kind를 조절하기 때문에 다른 로직 필요 없음
         L++;
       }
 
